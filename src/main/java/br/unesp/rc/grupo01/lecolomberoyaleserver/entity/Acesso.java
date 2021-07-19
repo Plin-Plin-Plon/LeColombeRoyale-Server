@@ -22,6 +22,7 @@ public class Acesso {
 
     private String usuario;
     private String senha;
+    private String token;
 
     public Acesso() {
     }
