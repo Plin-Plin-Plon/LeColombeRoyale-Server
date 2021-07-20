@@ -20,7 +20,6 @@ import lombok.ToString;
 @ToString
 public class Quarto {
 
-    private int idQuarto;
     private int numero;
     private String tipo;
     private boolean vago;
