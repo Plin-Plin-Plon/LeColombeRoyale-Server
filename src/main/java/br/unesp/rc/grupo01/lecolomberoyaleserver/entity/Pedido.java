@@ -5,7 +5,9 @@
  */
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,19 +15,21 @@ import lombok.ToString;
 
 /**
  *
- * @author paulo
+ * @author Christian
  */
-@Entity(name = "Funcionario")
+@Entity(name = "Pedido")
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = false, exclude = {"cargo", "salario"})
-@ToString(callSuper=true, includeFieldNames=true)
-public class Funcionario extends Pessoa {
+@EqualsAndHashCode
+@ToString
+public class Pedido implements Serializable {
+    
+    @Id
+    private int idHospede;
 
-    private String cpf;
-    private int cargo;
-    private float salario;
-
-    public Funcionario() {
+    private int idItem;
+    private double avaliacaoItem;
+    
+    public Pedido() {
     }
 }

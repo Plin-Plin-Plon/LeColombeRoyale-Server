@@ -25,7 +25,6 @@ public class Hospede extends Pessoa {
     private boolean premium;
     private List<Hospedagem> hospedagem;
     
-    
     public Hospede() {
         this.hospedagem = new ArrayList<>();
     }

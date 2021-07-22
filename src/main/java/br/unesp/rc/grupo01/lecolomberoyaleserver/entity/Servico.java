@@ -5,10 +5,34 @@
  */
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  *
  * @author paulo
  */
-public class Servico {
+@Entity(name = "Servico")
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
+public class Servico implements Serializable {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int idServico;
+    
+    private String nome;
+    private String descricao;
+    
+    public Servico() {
+    }
 }

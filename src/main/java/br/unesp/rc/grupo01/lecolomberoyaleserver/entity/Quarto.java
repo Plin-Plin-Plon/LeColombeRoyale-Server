@@ -5,6 +5,9 @@
  */
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,15 +17,18 @@ import lombok.ToString;
  *
  * @author paulo
  */
+@Entity(name = "Quarto")
 @Getter
 @Setter
 @EqualsAndHashCode
 @ToString
-public class Quarto {
+public class Quarto implements Serializable {
 
+    @Id
     private int numero;
+    
     private String tipo;
-    private boolean vago;
+    private Boolean vago;
 
     public Quarto() {
     }
