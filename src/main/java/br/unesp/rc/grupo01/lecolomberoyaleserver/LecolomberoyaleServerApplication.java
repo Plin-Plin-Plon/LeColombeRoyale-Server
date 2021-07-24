@@ -9,6 +9,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @SpringBootApplication
 public class LecolomberoyaleServerApplication {
@@ -31,4 +38,16 @@ public class LecolomberoyaleServerApplication {
         }
     }
 
+    @Component
+    public class InitializeData {
+
+        @Autowired
+        private DataSource dataSource;
+
+        @EventListener(ApplicationReadyEvent.class)
+        public void loadData() {
+            ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator(false, false, "UTF-8", new ClassPathResource("data.sql"));
+            resourceDatabasePopulator.execute(dataSource);
+        }
+    }
 }
