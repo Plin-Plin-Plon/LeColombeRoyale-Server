@@ -32,6 +32,7 @@ public class Servico implements Serializable {
     
     private String nome;
     private String descricao;
+    private Double preco;
     
     public Servico() {
     }
