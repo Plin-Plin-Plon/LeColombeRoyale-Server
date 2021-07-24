@@ -14,11 +14,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,15 +29,7 @@ import lombok.ToString;
  * @author paulo
  */
 @Entity(name = "Pessoa")
-@Table(
-    name = "Pessoa",
-    uniqueConstraints =  @UniqueConstraint(
-        name = "unique_cpf",
-        columnNames = {
-            "cpf"
-        }
-    )
-)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
 @EqualsAndHashCode

@@ -6,6 +6,8 @@
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,16 +17,16 @@ import lombok.ToString;
  *
  * @author paulo
  */
-@Entity(name = "Funcionario")
+@Entity
+@Table(name = "Funcionario")
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false, exclude = {"cargo", "salario"})
 @ToString(callSuper=true, includeFieldNames=true)
 public class Funcionario extends Pessoa {
 
-    private String cpf;
     private int cargo;
-    private float salario;
+    private double salario;
 
     public Funcionario() {
     }

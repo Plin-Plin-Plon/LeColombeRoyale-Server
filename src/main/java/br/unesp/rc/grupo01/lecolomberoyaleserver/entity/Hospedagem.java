@@ -5,6 +5,7 @@
  */
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +33,7 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class Hospedagem {
+public class Hospedagem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
