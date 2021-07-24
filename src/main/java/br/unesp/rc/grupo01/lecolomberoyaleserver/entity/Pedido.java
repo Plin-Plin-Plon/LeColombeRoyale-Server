@@ -28,7 +28,7 @@ public class Pedido implements Serializable {
     private int idHospede;
 
     private int idItem;
-    private double avaliacaoItem;
+    private Double avaliacaoItem;
     
     public Pedido() {
     }
