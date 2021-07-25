@@ -26,10 +26,10 @@ public class Acesso implements Serializable {
 
     @Column(name = "acesso_usuario")
     private String usuario;
-    
+
     @Column(name = "acesso_senha")
     private String senha;
-    
+
     @Column(name = "acesso_token")
     private String token;
 

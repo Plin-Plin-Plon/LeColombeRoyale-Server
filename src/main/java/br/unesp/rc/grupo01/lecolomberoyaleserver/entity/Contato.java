@@ -6,6 +6,7 @@
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +31,9 @@ public class Contato implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idContato;
     
+    @Column(nullable = false)
     private String telResidencial;
+    
     private String telCelular;
     private String email;
 

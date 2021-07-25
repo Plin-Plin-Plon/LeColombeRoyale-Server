@@ -6,6 +6,7 @@
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import lombok.EqualsAndHashCode;
@@ -25,10 +26,14 @@ import lombok.ToString;
 public class Quarto implements Serializable {
 
     @Id
+    @Column(nullable = false)
     private int numero;
-    
+
+    @Column(nullable = false)
     private String tipo;
-    private Boolean vago;
+
+    @Column(nullable = false)
+    private Boolean vago = true;
 
     public Quarto() {
     }

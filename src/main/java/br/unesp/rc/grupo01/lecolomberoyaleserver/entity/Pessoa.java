@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,23 +36,27 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class Pessoa implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idPessoa;
-    
+
+    @Column(nullable = false)
     private String nome;
+
+    @Column(name = "cpf", unique = true, nullable = false)
     private String cpf;
-    
+
+    @Column(nullable = false)
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     @JoinColumn(name = "pessoa_idPessoa")
     private List<Endereco> endereco;
-    
+
     private Acesso acesso;
-    
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contato_idContato")
     private Contato contato;
