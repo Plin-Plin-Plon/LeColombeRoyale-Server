@@ -64,8 +64,8 @@ public class PedidoService {
             persistedEntity = repository.findByIdHospede(idHospede);
 
             if (persistedEntity != null) {
-                if (entity.getAvaliacaoItem() != null) {
-                    persistedEntity.setAvaliacaoItem(entity.getAvaliacaoItem());
+                if (entity.getAvaliacaoServico() != null) {
+                    persistedEntity.setAvaliacaoServico(entity.getAvaliacaoServico());
                 }
                 
                 persistedEntity = repository.save(persistedEntity);

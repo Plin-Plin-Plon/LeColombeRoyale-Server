@@ -5,9 +5,14 @@
  */
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
+import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Servico;
 import java.io.Serializable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,13 +28,18 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class Pedido implements Serializable {
-    
+
     @Id
+    @Column(nullable = false)
     private int idHospede;
 
-    private int idItem;
-    private Double avaliacaoItem;
-    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "servico_idServico")
+    private Servico servico;
+
+    @Column(nullable = false)
+    private Double avaliacaoServico = -1.0;
+
     public Pedido() {
     }
 }
