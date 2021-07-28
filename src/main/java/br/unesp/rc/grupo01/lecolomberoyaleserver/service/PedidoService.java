@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PedidoService {
-   
+
     @Autowired
     private PedidoRepository repository;
 
@@ -36,14 +36,28 @@ public class PedidoService {
         return persistedEntity;
     }
 
-    public Pedido findByIdHospede(int idHospede) {
+    public Pedido findByIdPedido(Long idPedido) {
         Pedido insertedEntity = null;
 
         if (repository != null) {
-            insertedEntity = repository.findByIdHospede(idHospede);
+            insertedEntity = repository.findByIdPedido(idPedido);
         }
 
         return insertedEntity;
+    }
+
+    public List<Pedido> findByIdHospede(int idHospede) {
+        List<Pedido> list = null;
+
+        if (repository != null) {
+            list = new ArrayList<>();
+            list = repository.findByIdHospede(idHospede);
+            Collections.sort(list, (a, b) -> {
+                return Long.compare(a.getIdPedido(), b.getIdPedido());
+            });
+        }
+
+        return list;
     }
 
     public int deleteByIdHospede(int idHospede) {
@@ -58,16 +72,16 @@ public class PedidoService {
 
     public Pedido update(Pedido entity) {
         Pedido persistedEntity = null;
-        
+
         if (repository != null) {
-            int idHospede = entity.getIdHospede();
-            persistedEntity = repository.findByIdHospede(idHospede);
+            long idPedido = entity.getIdHospede();
+            persistedEntity = repository.findByIdPedido(idPedido);
 
             if (persistedEntity != null) {
                 if (entity.getAvaliacaoServico() != null) {
                     persistedEntity.setAvaliacaoServico(entity.getAvaliacaoServico());
                 }
-                
+
                 persistedEntity = repository.save(persistedEntity);
             }
         }
