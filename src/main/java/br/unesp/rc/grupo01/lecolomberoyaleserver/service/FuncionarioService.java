@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class FuncionarioService {
-    
+
     @Autowired
     private FuncionarioRepository repository;
 
@@ -45,7 +45,7 @@ public class FuncionarioService {
 
         return insertedEntity;
     }
-    
+
     public Funcionario findByCpf(String cpf) {
         Funcionario insertedEntity = null;
 
@@ -56,8 +56,8 @@ public class FuncionarioService {
         return insertedEntity;
     }
 
-    public String deleteByCpf(String cpf) {
-        String deleted = "Não encontrado";
+    public int deleteByCpf(String cpf) {
+        int deleted = -1;
 
         if (repository != null) {
             deleted = repository.deleteByCpf(cpf);
@@ -65,30 +65,22 @@ public class FuncionarioService {
 
         return deleted;
     }
-/*
+
     public Funcionario update(Funcionario entity) {
         Funcionario persistedEntity = null;
 
         if (repository != null) {
-            int numero = entity.getNumero();
-            persistedEntity = repository.findByNumero(numero);
+            int idPessoa = entity.getIdPessoa();
+            persistedEntity = repository.findByIdPessoa(idPessoa);
 
             if (persistedEntity != null) {
-                if (entity.getTipo() != null) {
-                    persistedEntity.setTipo(entity.getTipo());
-                }
-
-                if (entity.getVago() != null) {
-                    persistedEntity.setVago(entity.getVago());
-                }
-                
                 persistedEntity = repository.save(persistedEntity);
             }
         }
 
         return persistedEntity;
     }
-*/
+
     public List<Funcionario> findAll() {
         List<Funcionario> list = null;
 

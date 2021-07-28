@@ -20,7 +20,7 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> 
     @Override
     Funcionario save(Funcionario entity);
     
-    String deleteByCpf(String cpf);
+    int deleteByCpf(String cpf);
     
     Funcionario findByIdPessoa(int idPessoa);
     
