@@ -8,9 +8,13 @@ package br.unesp.rc.grupo01.lecolomberoyaleserver.controller;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Quarto;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.service.QuartoService;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,46 +36,66 @@ public class QuartoController {
     private QuartoService service;
 
     @GetMapping("index")
-    public List<Quarto> index() {
+    public ResponseEntity index() {
         List<Quarto> quartos = new ArrayList<>();
         quartos = service.findAll();
-        return quartos;
+        return ResponseEntity.status(HttpStatus.OK).body(quartos);
     }
 
     @GetMapping(value = "index", params = {"numero"})
-    public Quarto index(@RequestParam("numero") Integer numero) {
-        if (numero != null) {
-            Quarto quarto = new Quarto();
-            quarto = service.findByNumero(numero);
-            return quarto;
+    public ResponseEntity index(@RequestParam("numero") Integer numero) {
+        Quarto quarto = new Quarto();
+        quarto = service.findByNumero(numero);
+
+        if (quarto != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(quarto);
         } else {
-            return null;
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Quarto não encontrado");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
     }
 
     @PostMapping("create")
-    public Quarto create(@RequestBody Quarto data) {
+    public ResponseEntity create(@RequestBody Quarto data) {
         Quarto quarto = new Quarto();
         quarto = service.save(data);
-        return quarto;
+
+        if (quarto.getNumero() != -1) {
+            return ResponseEntity.status(HttpStatus.OK).body(quarto);
+        } else {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Quarto já cadastrado!");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
     }
 
     @PatchMapping("update")
-    public Quarto patch(@RequestBody Quarto data) {
+    public ResponseEntity patch(@RequestBody Quarto data) {
         Quarto quarto = new Quarto();
         quarto = service.update(data);
-        return quarto;
+
+        if (quarto != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(quarto);
+        } else {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Quarto não encontrado");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
     }
 
     @DeleteMapping("delete")
     @Transactional
-    public int delete(@RequestParam("numero") Integer numero) {
-        int deleted = -1;
+    public ResponseEntity delete(@RequestParam("numero") Integer numero) {
+        int deleted = service.deleteByNumero(numero);
+        Map<String, String> response = new HashMap<>();
 
-        if (numero != null) {
-            deleted = service.deleteByNumero(numero);
+        if (deleted >= 1) {
+            response.put("message", "Quarto de número " + numero + " deletado com sucesso");
+        } else {
+            response.put("message", "Quarto de número " + numero + " não encontrado");
         }
 
-        return deleted;
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

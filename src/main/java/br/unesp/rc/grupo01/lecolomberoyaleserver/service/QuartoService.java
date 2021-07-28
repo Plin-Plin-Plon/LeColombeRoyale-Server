@@ -30,7 +30,14 @@ public class QuartoService {
         Quarto persistedEntity = null;
 
         if (repository != null) {
-            persistedEntity = repository.save(entity);
+            int numero = entity.getNumero();
+            persistedEntity = repository.findByNumero(numero);
+
+            if (persistedEntity == null) {
+                persistedEntity = repository.save(entity);
+            } else {
+                persistedEntity.setNumero(-1);
+            }
         }
 
         return persistedEntity;
@@ -71,7 +78,7 @@ public class QuartoService {
                 if (entity.getVago() != null) {
                     persistedEntity.setVago(entity.getVago());
                 }
-                
+
                 persistedEntity = repository.save(persistedEntity);
             }
         }

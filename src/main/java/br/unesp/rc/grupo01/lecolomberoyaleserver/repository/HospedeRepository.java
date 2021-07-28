@@ -20,7 +20,7 @@ public interface HospedeRepository extends JpaRepository<Hospede, Long> {
     @Override
     Hospede save(Hospede entity);
     
-    String deleteByCpf(String cpf);
+    int deleteByCpf(String cpf);
     
     Hospede findByIdPessoa(int idPessoa);
     

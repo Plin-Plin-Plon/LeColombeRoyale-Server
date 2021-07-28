@@ -8,9 +8,13 @@ package br.unesp.rc.grupo01.lecolomberoyaleserver.controller;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Hospedagem;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.service.HospedagemService;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,51 +31,64 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("hospedagem")
 public class HospedagemController {
-    
+
     @Autowired
     private HospedagemService service;
 
     @GetMapping("index")
-    public List<Hospedagem> index() {
+    public ResponseEntity index() {
         List<Hospedagem> hospedagens = new ArrayList<>();
         hospedagens = service.findAll();
-        return hospedagens;
+        return ResponseEntity.status(HttpStatus.OK).body(hospedagens);
     }
 
     @GetMapping(value = "index", params = {"id"})
-    public Hospedagem index(@RequestParam("id") Integer idHospedagem) {
-        if (idHospedagem != null) {
-            Hospedagem hospedagem = new Hospedagem();
-            hospedagem = service.findByIdHospedagem(idHospedagem);
-            return hospedagem;
+    public ResponseEntity index(@RequestParam("id") Integer idHospedagem) {
+        Hospedagem hospedagem = new Hospedagem();
+        hospedagem = service.findByIdHospedagem(idHospedagem);
+        
+        if (hospedagem != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(hospedagem);
         } else {
-            return null;
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Hospedagem não encontrada");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
     }
 
     @PostMapping("create")
-    public Hospedagem create(@RequestBody Hospedagem data) {
+    public ResponseEntity create(@RequestBody Hospedagem data) {
         Hospedagem hospedagem = new Hospedagem();
         hospedagem = service.save(data);
-        return hospedagem;
+        return ResponseEntity.status(HttpStatus.OK).body(hospedagem);
     }
 
     @PatchMapping("update")
-    public Hospedagem patch(@RequestBody Hospedagem data) {
+    public ResponseEntity patch(@RequestBody Hospedagem data) {
         Hospedagem hospedagem = new Hospedagem();
         hospedagem = service.update(data);
-        return hospedagem;
+
+        if (hospedagem != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(hospedagem);
+        } else {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Hospedagem não encontrada");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
     }
 
     @DeleteMapping("delete")
     @Transactional
-    public int delete(@RequestParam("id") Integer idHospedagem) {
-        int deleted = -1;
+    public ResponseEntity delete(@RequestParam("id") Integer idHospedagem) {
+        int deleted = service.deleteByIdHospedagem(idHospedagem);
+        Map<String, String> response = new HashMap<>();
 
-        if (idHospedagem != null) {
-            deleted = service.deleteByIdHospedagem(idHospedagem);
+        if (deleted >= 1) {
+            response.put("message", "Hospedagem de id " + idHospedagem + "deletada com sucesso");
+        } else {
+            response.put("message", "Hospedagem de id " + idHospedagem + "não encontrada");
         }
 
-        return deleted;
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

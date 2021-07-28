@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class HospedeService {
-    
+
     @Autowired
     private HospedeRepository repository;
 
@@ -45,7 +45,7 @@ public class HospedeService {
 
         return insertedEntity;
     }
-    
+
     public Hospede findByCpf(String cpf) {
         Hospede insertedEntity = null;
 
@@ -56,8 +56,8 @@ public class HospedeService {
         return insertedEntity;
     }
 
-    public String deleteByCpf(String cpf) {
-        String deleted = "Não encontrado";
+    public int deleteByCpf(String cpf) {
+        int deleted = -1;
 
         if (repository != null) {
             deleted = repository.deleteByCpf(cpf);
@@ -65,30 +65,22 @@ public class HospedeService {
 
         return deleted;
     }
-/*
+
     public Hospede update(Hospede entity) {
         Hospede persistedEntity = null;
 
         if (repository != null) {
-            int numero = entity.getNumero();
-            persistedEntity = repository.findByNumero(numero);
+            int idPessoa = entity.getIdPessoa();
+            persistedEntity = repository.findByIdPessoa(idPessoa);
 
             if (persistedEntity != null) {
-                if (entity.getTipo() != null) {
-                    persistedEntity.setTipo(entity.getTipo());
-                }
-
-                if (entity.getVago() != null) {
-                    persistedEntity.setVago(entity.getVago());
-                }
-                
                 persistedEntity = repository.save(persistedEntity);
             }
         }
 
         return persistedEntity;
     }
-*/
+
     public List<Hospede> findAll() {
         List<Hospede> list = null;
 

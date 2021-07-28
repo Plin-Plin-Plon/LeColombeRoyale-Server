@@ -8,9 +8,13 @@ package br.unesp.rc.grupo01.lecolomberoyaleserver.controller;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Hospede;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.service.HospedeService;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,58 +36,73 @@ public class HospedeController {
     private HospedeService service;
 
     @GetMapping("index")
-    public List<Hospede> index() {
+    public ResponseEntity index() {
         List<Hospede> hospedes = new ArrayList<>();
         hospedes = service.findAll();
-        return hospedes;
+        return ResponseEntity.status(HttpStatus.OK).body(hospedes);
     }
 
     @GetMapping(value = "index", params = {"id"})
-    public Hospede index(@RequestParam("id") Integer id) {
-        if (id != null) {
-            Hospede hospede = new Hospede();
-            hospede = service.findByIdPessoa(id);
-            return hospede;
+    public ResponseEntity index(@RequestParam("id") Integer id) {
+        Hospede hospede = new Hospede();
+        hospede = service.findByIdPessoa(id);
+
+        if (hospede != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(hospede);
         } else {
-            return null;
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Hóspede não encontrado");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
     }
-    
+
     @GetMapping(value = "index", params = {"cpf"})
-    public Hospede index(@RequestParam("cpf") String cpf) {
-        if (cpf != null) {
-            Hospede hospede = new Hospede();
-            hospede = service.findByCpf(cpf);
-            return hospede;
+    public ResponseEntity index(@RequestParam("cpf") String cpf) {
+        Hospede hospede = new Hospede();
+        hospede = service.findByCpf(cpf);
+
+        if (hospede != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(hospede);
         } else {
-            return null;
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Hóspede não encontrado");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
     }
 
     @PostMapping("create")
-    public Hospede create(@RequestBody Hospede data) {
+    public ResponseEntity create(@RequestBody Hospede data) {
         Hospede hospede = new Hospede();
         hospede = service.save(data);
-        return hospede;
+        return ResponseEntity.status(HttpStatus.OK).body(hospede);
     }
 
-    /*
     @PatchMapping("update")
-    public Hospede patch(@RequestBody Hospede data) {
+    public ResponseEntity patch(@RequestBody Hospede data) {
         Hospede hospede = new Hospede();
         hospede = service.update(data);
-        return hospede;
+        
+        if (hospede != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(hospede);
+        } else {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Hóspede não encontrado");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
     }
-*/
+
     @DeleteMapping("delete")
     @Transactional
-    public String delete(@RequestParam("cpf") String cpf) {
-        String deleted = "Não encontrado";
+    public ResponseEntity delete(@RequestParam("cpf") String cpf) {
+        int deleted = service.deleteByCpf(cpf);
+        Map<String, String> response = new HashMap<>();
 
-        if (cpf != null) {
-            deleted = service.deleteByCpf(cpf);
+        if (deleted >= 1) {
+            response.put("message", "Hóspede deletado com sucesso");
+        } else {
+            response.put("message", "Hóspede não encontrado");
         }
 
-        return deleted;
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
