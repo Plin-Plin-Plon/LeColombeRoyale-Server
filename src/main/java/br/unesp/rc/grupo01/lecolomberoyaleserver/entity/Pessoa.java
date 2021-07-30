@@ -5,9 +5,11 @@
  */
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +20,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.EqualsAndHashCode;
@@ -47,6 +51,12 @@ public class Pessoa implements Serializable {
     @Column(name = "cpf", unique = true, nullable = false)
     private String cpf;
 
+    @Column(name = "usuario")
+    private String usuario;
+
+    @Column(name = "senha")
+    private String senha;
+
     @Column(nullable = false)
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -55,11 +65,18 @@ public class Pessoa implements Serializable {
     @JoinColumn(name = "pessoa_idPessoa")
     private List<Endereco> endereco;
 
-    private Acesso acesso;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contato_idContato")
     private Contato contato;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "USER_ROLES",
+            joinColumns = {
+                @JoinColumn(name = "USER_ID")
+            },
+            inverseJoinColumns = {
+                @JoinColumn(name = "ROLE_ID")})
+    private Set<Role> roles;
 
     public Pessoa() {
         this.endereco = new ArrayList<>();
