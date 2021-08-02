@@ -8,9 +8,9 @@ package br.unesp.rc.grupo01.lecolomberoyaleserver.service;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.PessoaRepository;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Pessoa;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
+//import java.util.List;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -48,7 +48,7 @@ public class PessoaService implements UserDetailsService {
         return authorities;
     }
 
-    public List<Pessoa> findAll() {
+    /*public List<Pessoa> findAll() {
         List<Pessoa> list = new ArrayList<>();
         pessoaRepository.findAll().iterator().forEachRemaining(list::add);
         return list;
@@ -56,5 +56,5 @@ public class PessoaService implements UserDetailsService {
 
     public Pessoa findByUsuario(String username) {
         return pessoaRepository.findByUsuario(username);
-    }
+    }*/
 }

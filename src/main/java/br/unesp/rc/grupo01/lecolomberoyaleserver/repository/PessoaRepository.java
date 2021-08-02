@@ -5,7 +5,7 @@
  */
 package br.unesp.rc.grupo01.lecolomberoyaleserver.repository;
 
-import java.util.List;
+//import java.util.List;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Pessoa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -17,11 +17,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
     
-    @Override
-    Pessoa save(Pessoa entity);
-    
     Pessoa findByUsuario(String usuario);
-    
+       
+    /*@Override
+    Pessoa save(Pessoa entity);
+   
     @Override
-    List<Pessoa> findAll();
+    List<Pessoa> findAll();*/
 }
