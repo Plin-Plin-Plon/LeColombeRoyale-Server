@@ -5,9 +5,7 @@
  */
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
-import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Servico;
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,15 +33,22 @@ public class Pedido implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idPedido;
 
-    @Column(nullable = false)
-    private int idHospede;
+    @OneToOne
+    @JoinColumn(name = "idHospede")
+    private Hospede hospede;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "servico_idServico")
+    @OneToOne
+    @JoinColumn(name = "numero")
+    private Quarto quarto;
+
+    @OneToOne
+    @JoinColumn(name = "idServico")
     private Servico servico;
 
+    private Double avaliacaoServico;
+
     @Column(nullable = false)
-    private Double avaliacaoServico = -1.0;
+    private Boolean concluido;
 
     public Pedido() {
     }
