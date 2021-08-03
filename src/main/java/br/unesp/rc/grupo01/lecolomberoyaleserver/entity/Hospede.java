@@ -31,7 +31,7 @@ import lombok.ToString;
 public class Hospede extends Pessoa {
 
     @Column(nullable = false)
-    private Boolean premium = false;
+    private Boolean premium;
 
     @OneToMany(
             cascade = CascadeType.ALL,
