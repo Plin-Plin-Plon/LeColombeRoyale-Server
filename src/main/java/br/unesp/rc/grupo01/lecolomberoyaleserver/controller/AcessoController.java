@@ -101,7 +101,7 @@ public class AcessoController {
         Role role = roleService.findByName("USER");
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(role);
-        
+
         hospede.setRoles(roleSet);
 
         hospede = hospedeService.save(hospede);
@@ -109,6 +109,7 @@ public class AcessoController {
         return ResponseEntity.status(HttpStatus.OK).body(hospede);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "register", params = {"func"})
     public ResponseEntity register(@RequestBody Funcionario data) {
         Funcionario funcionario = new Funcionario();
@@ -135,10 +136,10 @@ public class AcessoController {
         Role role = roleService.findByName("USER");
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(role);
-        
+
         role = roleService.findByName("MOD");
         roleSet.add(role);
-        
+
         funcionario.setRoles(roleSet);
 
         funcionario = funcionarioService.save(funcionario);
@@ -149,19 +150,19 @@ public class AcessoController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("adminping")
     public String adminPing() {
-        return "O Admnistrativo é cheiroso";
+        return "Apenas o Admnistrador pode ver esta rota";
     }
 
     @PreAuthorize("hasRole('MOD')")
     @GetMapping("modping")
     public String modPing() {
-        return "O Moderador é viado";
+        return "Apenas o Admnistrador e os funcionários podem ver esta rota";
     }
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("userping")
     public String userPing() {
-        return "Qualquer plebe consegue ler isso";
+        return "Qualquer usuário tem acesso à esta rota";
     }
 
 }

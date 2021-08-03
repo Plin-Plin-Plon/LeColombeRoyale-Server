@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -35,6 +36,7 @@ public class HospedeController {
     @Autowired
     private HospedeService service;
 
+    @PreAuthorize("hasRole('MOD')")
     @GetMapping("index")
     public ResponseEntity index() {
         List<Hospede> hospedes = new ArrayList<>();
@@ -42,6 +44,7 @@ public class HospedeController {
         return ResponseEntity.status(HttpStatus.OK).body(hospedes);
     }
 
+    @PreAuthorize("hasRole('MOD')")
     @GetMapping(value = "index", params = {"id"})
     public ResponseEntity index(@RequestParam("id") Integer id) {
         Hospede hospede = new Hospede();
@@ -70,6 +73,7 @@ public class HospedeController {
         }
     }
 
+    @PreAuthorize("hasRole('MOD')")
     @PostMapping("create")
     public ResponseEntity create(@RequestBody Hospede data) {
         Hospede hospede = new Hospede();
@@ -91,6 +95,7 @@ public class HospedeController {
         }
     }
 
+    @PreAuthorize("hasRole('MOD')")
     @DeleteMapping("delete")
     @Transactional
     public ResponseEntity delete(@RequestParam("cpf") String cpf) {
