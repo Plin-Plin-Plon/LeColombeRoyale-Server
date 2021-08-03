@@ -33,7 +33,10 @@ public class Quarto implements Serializable {
     private String tipo;
 
     @Column(nullable = false)
-    private Boolean vago = true;
+    private Double valor;
+    
+    @Column(nullable = false)
+    private Boolean vago;
 
     public Quarto() {
     }
