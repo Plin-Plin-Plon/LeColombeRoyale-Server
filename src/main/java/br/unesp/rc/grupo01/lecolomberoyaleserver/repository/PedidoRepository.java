@@ -22,11 +22,11 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     
     int deleteByIdPedido(Long idPedido);
     
-    int deleteByIdHospede(int idHospede);
+    int deleteByHospedeIdPessoa(int idPessoa);
     
     Pedido findByIdPedido(Long idPedido);
     
-    List<Pedido> findByIdHospede(int idHospede);
+    List<Pedido> findByHospedeIdPessoa(int idPessoa);
 
     @Override
     List<Pedido> findAll();

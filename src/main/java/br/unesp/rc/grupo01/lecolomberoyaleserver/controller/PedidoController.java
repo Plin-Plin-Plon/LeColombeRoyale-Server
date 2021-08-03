@@ -54,7 +54,7 @@ public class PedidoController {
     @GetMapping(value = "index", params = {"idHospede"})
     public ResponseEntity index(@RequestParam("idHospede") Integer idHospede) {
         List<Pedido> pedidos = new ArrayList<>();
-        pedidos = service.findByIdHospede(idHospede);
+        pedidos = service.findByHospedeIdPessoa(idHospede);
         return ResponseEntity.status(HttpStatus.OK).body(pedidos);
     }
 
@@ -80,16 +80,32 @@ public class PedidoController {
     }
 
     @PreAuthorize("hasRole('MOD')")
-    @DeleteMapping("delete")
+    @DeleteMapping(value = "delete", params = {"idPedido"})
     @Transactional
-    public ResponseEntity delete(@RequestParam("id") Integer idHospede) {
-        int deleted = service.deleteByIdHospede(idHospede);
+    public ResponseEntity delete(@RequestParam("idPedido") Long idPedido) {
+        int deleted = service.deleteByIdPedido(idPedido);
         Map<String, String> response = new HashMap<>();
 
         if (deleted >= 1) {
-            response.put("message", "Pedido do hóspede de id " + idHospede + " foi deletado com sucesso");
+            response.put("message", "Pedido de id " + idPedido + " deletado com sucesso");
         } else {
-            response.put("message", "Pedido do hóspede de id " + idHospede + " não encontrado");
+            response.put("message", "Pedido de id " + idPedido + " não encontrado");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PreAuthorize("hasRole('MOD')")
+    @DeleteMapping(value = "delete", params = {"idHospede"})
+    @Transactional
+    public ResponseEntity delete(@RequestParam("idHospede") Integer idHospede) {
+        int deleted = service.deleteByHospedeIdPessoa(idHospede);
+        Map<String, String> response = new HashMap<>();
+
+        if (deleted >= 1) {
+            response.put("message", "Pedidos do hóspede de id " + idHospede + " foram deletados com sucesso");
+        } else {
+            response.put("message", "Pedidos do hóspede de id " + idHospede + " não foram encontrados");
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
