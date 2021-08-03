@@ -1,16 +1,20 @@
 INSERT INTO Pessoa (id_pessoa, nome, cpf, usuario, senha) VALUES
-  (1, 'Admin', '999.999.999-99', 'admin', 'admin') ON DUPLICATE KEY UPDATE id_pessoa = 1;
+  (0, 'Admin', '999.999.999-99', 'admin', '$2a$10$.U6d4K7bEpfAlFxe2v9INetgijlOt0t0FMJdrLcmPWojnUde1QRa.') ON DUPLICATE KEY UPDATE id_pessoa = 0;
 
-INSERT INTO Funcionario (id_pessoa, cargo, salario) VALUES (1, 0, 0) ON DUPLICATE KEY UPDATE id_pessoa = 1;
+INSERT INTO Role (id_role, description, name) 
+    VALUES (1, 'Admin role', 'ADMIN') ON DUPLICATE KEY UPDATE id_role = 1;
+INSERT INTO Role (id_role, description, name) 
+    VALUES (2, 'Mod role', 'MOD') ON DUPLICATE KEY UPDATE id_role = 2;
+INSERT INTO Role (id_role, description, name) 
+    VALUES (3, 'User role', 'USER') ON DUPLICATE KEY UPDATE id_role = 3;
 
-drop table if exists role;
-create table role (id_role bigint not null auto_increment, description varchar(255), name varchar(255), primary key (id_role)) engine=MyISAM;
+CREATE TABLE IF NOT EXISTS user_roles (
+    user_id bigint NOT NULL, 
+    role_id bigint NOT NULL, 
+    col2 int(3) unsigned zerofill DEFAULT NULL,
+    PRIMARY KEY(user_id, role_id)
+)  ENGINE = MyISAM;
 
-INSERT INTO role (id_role, description, name) VALUES (4, 'Admin role', 'ADMIN');
-INSERT INTO role (id_role, description, name) VALUES (5, 'Mod role', 'MOD');
-INSERT INTO role (id_role, description, name) VALUES (6, 'User role', 'USER');
-
-drop table if exists user_roles;
-create table user_roles (user_id bigint not null, role_id bigint not null, primary key (user_id, role_id)) engine=MyISAM;
-
-INSERT INTO user_roles (user_id, role_id) VALUES (1, 4);
+INSERT INTO user_roles (user_id, role_id) VALUES (0, 1) ON DUPLICATE KEY UPDATE user_id = 0;
+INSERT INTO user_roles (user_id, role_id) VALUES (0, 2) ON DUPLICATE KEY UPDATE user_id = 0;
+INSERT INTO user_roles (user_id, role_id) VALUES (0, 3) ON DUPLICATE KEY UPDATE user_id = 0;
