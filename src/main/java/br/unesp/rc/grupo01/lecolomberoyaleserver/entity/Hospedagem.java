@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.EqualsAndHashCode;
@@ -39,7 +39,7 @@ public class Hospedagem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idHospedagem;
-
+    
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataChegada;
@@ -48,24 +48,25 @@ public class Hospedagem implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataSaida;
 
+    @OneToOne
+    @JoinColumn(name = "quarto_numero")
+    private Quarto quarto;
+
     @Column(nullable = false)
     private double diaria = 0;
 
     @Column(nullable = false)
     private double valorTotal = 0;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "hospedagem_idHospedagem")
-    private List<Servico> servico;
+    private List<Pedido> pedidos;
 
     public Hospedagem() {
-        this.servico = new ArrayList<>();
+        this.pedidos = new ArrayList<>();
     }
 
-    public void setHospedagem(Servico servico) {
-        this.servico.add(servico);
+    public void setHospedagem(Pedido pedido) {
+        this.pedidos.add(pedido);
     }
 }
