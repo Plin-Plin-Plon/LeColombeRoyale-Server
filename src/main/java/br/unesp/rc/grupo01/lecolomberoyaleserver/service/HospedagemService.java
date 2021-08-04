@@ -6,7 +6,9 @@
 package br.unesp.rc.grupo01.lecolomberoyaleserver.service;
 
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Hospedagem;
+import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Pedido;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.HospedagemRepository;
+import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.PedidoRepository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,9 +21,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class HospedagemService {
-    
+
     @Autowired
     private HospedagemRepository repository;
+
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     public HospedagemService() {
     }
@@ -56,15 +61,15 @@ public class HospedagemService {
         return deleted;
     }
 
-    
     public Hospedagem update(Hospedagem entity) {
         Hospedagem persistedEntity = null;
-        
+
         if (repository != null) {
             int idHospedagem = entity.getIdHospedagem();
             persistedEntity = repository.findByIdHospedagem(idHospedagem);
 
             if (persistedEntity != null) {
+
                 /*
                 if (entity.() != null) {
                     persistedEntity.setNome(entity.getNome());
@@ -77,8 +82,31 @@ public class HospedagemService {
                 if (entity.getPreco() != null) {
                     persistedEntity.setPreco(entity.getPreco());
                 }
-                */
+                 */
                 persistedEntity = repository.save(persistedEntity);
+            }
+        }
+
+        return persistedEntity;
+    }
+
+    public Hospedagem update(Integer idHospedagem, Long idPedido) {
+        Hospedagem persistedEntity = null;
+
+        if (repository != null) {
+            persistedEntity = repository.findByIdHospedagem(idHospedagem);
+
+            if (persistedEntity != null) {
+                Pedido pedido = pedidoRepository.findByIdPedido(idPedido);
+                
+                if (pedido != null) {
+                    persistedEntity.setHospedagem(pedido);
+                    persistedEntity = repository.save(persistedEntity);
+                }
+                else {
+                    persistedEntity.setDiaria(-1);
+                }
+                
             }
         }
 

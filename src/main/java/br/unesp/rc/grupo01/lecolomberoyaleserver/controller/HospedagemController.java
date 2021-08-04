@@ -48,7 +48,7 @@ public class HospedagemController {
     public ResponseEntity index(@RequestParam("id") Integer idHospedagem) {
         Hospedagem hospedagem = new Hospedagem();
         hospedagem = service.findByIdHospedagem(idHospedagem);
-        
+
         if (hospedagem != null) {
             return ResponseEntity.status(HttpStatus.OK).body(hospedagem);
         } else {
@@ -67,6 +67,25 @@ public class HospedagemController {
     }
 
     @PatchMapping("update")
+    public ResponseEntity patch(@RequestParam("id") Integer idHospedagem, @RequestParam("idPedido") Long idPedido) {
+        Hospedagem hospedagem = new Hospedagem();
+        hospedagem = service.update(idHospedagem, idPedido);
+
+        if (hospedagem != null && hospedagem.getDiaria() != -1) {
+            return ResponseEntity.status(HttpStatus.OK).body(hospedagem);
+        } else if (hospedagem == null) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Hospedagem não encontrada");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } else {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Pedido não encontrado");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        }
+    }
+
+    @PatchMapping(value = "update", params = {"func"})
     public ResponseEntity patch(@RequestBody Hospedagem data) {
         Hospedagem hospedagem = new Hospedagem();
         hospedagem = service.update(data);
@@ -79,11 +98,11 @@ public class HospedagemController {
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
     }
+
     /*  TODO 
             Arrumar as rotas para que o usuário possa fazer update em serviços
             E o MOD possa atualizar os dados da hospedagem. Ex: data,preço,etc.
-    */
-
+     */
     @PreAuthorize("hasRole('MOD')")
     @DeleteMapping("delete")
     @Transactional
