@@ -8,18 +8,20 @@ package br.unesp.rc.grupo01.lecolomberoyaleserver.service;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Hospedagem;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Pedido;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.HospedagemRepository;
+import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.HospedeRepository;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.PedidoRepository;
+import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.QuartoRepository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Christian
  */
-@Component
+@Service("hospedagemService")
 public class HospedagemService {
 
     @Autowired
@@ -28,6 +30,12 @@ public class HospedagemService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
+    @Autowired
+    private HospedeRepository hospedeRepository;
+    
+    @Autowired
+    private QuartoRepository quartoRepository;
+    
     public HospedagemService() {
     }
 
@@ -35,13 +43,19 @@ public class HospedagemService {
         Hospedagem persistedEntity = null;
 
         if (repository != null) {
+            int hospede = entity.getHospede().getIdPessoa();
+            int quarto = entity.getQuarto().getNumero();
+            
+            entity.setHospede(hospedeRepository.findByIdPessoa(hospede));
+            entity.setQuarto(quartoRepository.findByNumero(quarto));
+            
             persistedEntity = repository.save(entity);
         }
 
         return persistedEntity;
     }
 
-    public Hospedagem findByIdHospedagem(int idHospedagem) {
+    public Hospedagem findByIdHospedagem(Long idHospedagem) {
         Hospedagem insertedEntity = null;
 
         if (repository != null) {
@@ -50,8 +64,18 @@ public class HospedagemService {
 
         return insertedEntity;
     }
+    
+    public Hospedagem findByHospedeIdPessoa(Integer idPessoa) {
+        Hospedagem insertedEntity = null;
 
-    public int deleteByIdHospedagem(int idHospedagem) {
+        if (repository != null) {
+            insertedEntity = repository.findByHospedeIdPessoa(idPessoa);
+        }
+
+        return insertedEntity;
+    }
+
+    public int deleteByIdHospedagem(Long idHospedagem) {
         int deleted = -1;
 
         if (repository != null) {
@@ -65,7 +89,7 @@ public class HospedagemService {
         Hospedagem persistedEntity = null;
 
         if (repository != null) {
-            int idHospedagem = entity.getIdHospedagem();
+            Long idHospedagem = entity.getIdHospedagem();
             persistedEntity = repository.findByIdHospedagem(idHospedagem);
 
             if (persistedEntity != null) {
@@ -90,7 +114,7 @@ public class HospedagemService {
         return persistedEntity;
     }
 
-    public Hospedagem update(Integer idHospedagem, Long idPedido) {
+    public Hospedagem update(Long idHospedagem, Long idPedido) {
         Hospedagem persistedEntity = null;
 
         if (repository != null) {
@@ -98,15 +122,14 @@ public class HospedagemService {
 
             if (persistedEntity != null) {
                 Pedido pedido = pedidoRepository.findByIdPedido(idPedido);
-                
+
                 if (pedido != null) {
                     persistedEntity.setHospedagem(pedido);
                     persistedEntity = repository.save(persistedEntity);
-                }
-                else {
+                } else {
                     persistedEntity.setDiaria(-1);
                 }
-                
+
             }
         }
 
@@ -119,7 +142,9 @@ public class HospedagemService {
         if (repository != null) {
             list = new ArrayList<>();
             list = repository.findAll();
-            Collections.sort(list, (a, b) -> a.getIdHospedagem() - b.getIdHospedagem());
+            Collections.sort(list, (a, b) -> {
+                return Long.compare(a.getIdHospedagem(), b.getIdHospedagem());
+            });
         }
 
         return list;

@@ -20,9 +20,11 @@ public interface HospedagemRepository extends JpaRepository<Hospedagem, Long> {
     @Override
     Hospedagem save(Hospedagem entity);
     
-    int deleteByIdHospedagem(int idHospedagem);
+    int deleteByIdHospedagem(Long idHospedagem);
     
-    Hospedagem findByIdHospedagem(int idHospedagem);
+    Hospedagem findByIdHospedagem(Long idHospedagem);
+    
+    Hospedagem findByHospedeIdPessoa(Integer idPessoa);
 
     @Override
     List<Hospedagem> findAll();
