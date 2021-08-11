@@ -5,7 +5,8 @@
  */
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
 
 /**
  *
@@ -48,13 +50,15 @@ public class Pessoa implements Serializable {
     @Column(nullable = false)
     private String nome;
 
-    @Column(name = "cpf", unique = true, nullable = false)
+    @Length(min = 11, max = 14)
+    @Column(name = "cpf", length = 14, unique = true, nullable = false)
     private String cpf;
 
     @Column(name = "usuario")
     private String usuario;
 
     @Column(name = "senha")
+    @JsonProperty(access = Access.WRITE_ONLY)
     private String senha;
 
     @Column(nullable = false)
@@ -62,11 +66,11 @@ public class Pessoa implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
-    @JoinColumn(name = "pessoa_idPessoa")
+    @JoinColumn(name = "idPessoa")
     private List<Endereco> endereco;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "contato_idContato")
+    @JoinColumn(name = "idContato")
     private Contato contato;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
