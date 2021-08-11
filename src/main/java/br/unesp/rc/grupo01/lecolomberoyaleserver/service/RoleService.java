@@ -8,14 +8,14 @@ package br.unesp.rc.grupo01.lecolomberoyaleserver.service;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Role;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author paulo
  */
 
-@Component
+@Service("roleService")
 public class RoleService {
     
     @Autowired
