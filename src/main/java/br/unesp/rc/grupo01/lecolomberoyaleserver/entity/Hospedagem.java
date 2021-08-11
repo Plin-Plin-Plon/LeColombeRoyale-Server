@@ -5,6 +5,8 @@
  */
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -38,8 +41,8 @@ public class Hospedagem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int idHospedagem;
-    
+    private Long idHospedagem;
+
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataChegada;
@@ -47,6 +50,11 @@ public class Hospedagem implements Serializable {
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataSaida;
+
+    @ManyToOne
+    @JoinColumn(name = "idHospede", nullable = false)
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private Hospede hospede;
 
     @OneToOne
     @JoinColumn(name = "quarto_numero")
@@ -58,8 +66,8 @@ public class Hospedagem implements Serializable {
     @Column(nullable = false)
     private double valorTotal = 0;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "hospedagem_idHospedagem")
+    @OneToMany
+    @JoinColumn(name = "idHospedagem")
     private List<Pedido> pedidos;
 
     public Hospedagem() {

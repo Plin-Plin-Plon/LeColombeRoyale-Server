@@ -5,6 +5,8 @@
  */
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -34,9 +36,10 @@ public class Hospede extends Pessoa {
     private Boolean premium;
 
     @OneToMany(
+            mappedBy = "hospede",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    @JoinColumn(name = "hospede_idPessoa")
+    @JsonProperty(access = Access.WRITE_ONLY)
     private List<Hospedagem> hospedagem;
 
     public Hospede() {
