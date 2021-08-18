@@ -16,17 +16,19 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
-    
+
     @Override
     Pedido save(Pedido entity);
-    
+
     int deleteByIdPedido(Long idPedido);
-    
+
     int deleteByHospedeIdPessoa(int idPessoa);
-    
+
     Pedido findByIdPedido(Long idPedido);
-    
+
     List<Pedido> findByHospedeIdPessoa(int idPessoa);
+
+    List<Pedido> findByConcluido(Boolean concluido);
 
     @Override
     List<Pedido> findAll();

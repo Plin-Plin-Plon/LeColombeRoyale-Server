@@ -44,6 +44,13 @@ public class PedidoController {
         return ResponseEntity.status(HttpStatus.OK).body(pedidos);
     }
 
+    @GetMapping(value = "index", params = {"concluido"})
+    public ResponseEntity index(@RequestParam("concluido") Boolean concluido) {
+        List<Pedido> pedidos = new ArrayList<>();
+        pedidos = service.findByConcluido(concluido);
+        return ResponseEntity.status(HttpStatus.OK).body(pedidos);
+    }
+
     @GetMapping(value = "index", params = {"idPedido"})
     public ResponseEntity index(@RequestParam("idPedido") Long idPedido) {
         Pedido pedido = new Pedido();

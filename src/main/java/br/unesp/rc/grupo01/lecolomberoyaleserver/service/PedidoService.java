@@ -5,6 +5,7 @@
  */
 package br.unesp.rc.grupo01.lecolomberoyaleserver.service;
 
+import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Hospedagem;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Pedido;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.HospedeRepository;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.PedidoRepository;
@@ -30,6 +31,9 @@ public class PedidoService {
     private HospedeRepository hospedeRepository;
 
     @Autowired
+    private HospedagemService hospedagemService;
+
+    @Autowired
     private QuartoRepository quartoRepository;
 
     @Autowired
@@ -51,6 +55,18 @@ public class PedidoService {
             entity.setServico(servicoRepository.findByIdServico(servico));
 
             persistedEntity = repository.save(entity);
+
+            List<Hospedagem> hospedagens = entity.getHospede().getHospedagem();
+            Long idHospedagemAtual = -1l;
+
+            for (Hospedagem hospedagem : hospedagens) {
+                if (hospedagem.getAtual() == true) {
+                    idHospedagemAtual = hospedagem.getIdHospedagem();
+                    break;
+                }
+            }
+
+            hospedagemService.update(idHospedagemAtual, persistedEntity.getIdPedido());
         }
 
         return persistedEntity;
@@ -72,6 +88,20 @@ public class PedidoService {
         if (repository != null) {
             list = new ArrayList<>();
             list = repository.findByHospedeIdPessoa(idPessoa);
+            Collections.sort(list, (a, b) -> {
+                return Long.compare(a.getIdPedido(), b.getIdPedido());
+            });
+        }
+
+        return list;
+    }
+
+    public List<Pedido> findByConcluido(Boolean concluido) {
+        List<Pedido> list = null;
+
+        if (repository != null) {
+            list = new ArrayList<>();
+            list = repository.findByConcluido(concluido);
             Collections.sort(list, (a, b) -> {
                 return Long.compare(a.getIdPedido(), b.getIdPedido());
             });
