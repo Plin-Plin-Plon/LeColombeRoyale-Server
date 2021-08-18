@@ -66,6 +66,9 @@ public class Hospedagem implements Serializable {
     @Column(nullable = false)
     private double valorTotal = 0;
 
+    @Column(nullable = false)
+    private Boolean atual;
+    
     @OneToMany
     @JoinColumn(name = "idHospedagem")
     private List<Pedido> pedidos;
