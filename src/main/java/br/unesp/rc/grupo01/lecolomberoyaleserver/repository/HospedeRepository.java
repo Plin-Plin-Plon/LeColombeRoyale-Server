@@ -24,6 +24,8 @@ public interface HospedeRepository extends JpaRepository<Hospede, Long> {
     
     Hospede findByIdPessoa(int idPessoa);
     
+    Hospede findByUsuario(String usuario);
+    
     Hospede findByCpf(String cpf);
 
     @Override

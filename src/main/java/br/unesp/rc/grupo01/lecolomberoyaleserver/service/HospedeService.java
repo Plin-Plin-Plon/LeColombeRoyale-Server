@@ -46,6 +46,16 @@ public class HospedeService {
         return insertedEntity;
     }
 
+    public Hospede findByUsuario(String usuario) {
+        Hospede insertedEntity = null;
+
+        if (repository != null) {
+            insertedEntity = repository.findByUsuario(usuario);
+        }
+
+        return insertedEntity;
+    }
+
     public Hospede findByCpf(String cpf) {
         Hospede insertedEntity = null;
 

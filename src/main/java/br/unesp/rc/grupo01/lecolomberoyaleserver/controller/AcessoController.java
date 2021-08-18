@@ -17,8 +17,10 @@ import br.unesp.rc.grupo01.lecolomberoyaleserver.service.HospedeService;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.security.TokenProvider;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.service.RoleService;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,6 +66,7 @@ public class AcessoController {
 
     @PostMapping("login")
     public ResponseEntity<?> generateToken(@RequestBody Acesso acesso) throws AuthenticationException {
+        Map<String, String> response = new HashMap<>();
 
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -71,13 +74,23 @@ public class AcessoController {
                         acesso.getSenha()
                 )
         );
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final String token = jwtTokenUtil.generateToken(authentication);
-        return ResponseEntity.ok(new AuthToken(token));
+
+        Hospede hospede = hospedeService.findByUsuario(acesso.getUsuario());
+        
+        response.put("idPessoa", String.valueOf(hospede.getIdPessoa()));
+        response.put("premium", String.valueOf(hospede.getPremium()));
+        response.put("token", token);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("register")
     public ResponseEntity register(@RequestBody Hospede data) {
+        System.out.println(data);
+
         Hospede hospede = new Hospede();
         List<Endereco> enderecos = new ArrayList<>();
         Contato contato = new Contato();
