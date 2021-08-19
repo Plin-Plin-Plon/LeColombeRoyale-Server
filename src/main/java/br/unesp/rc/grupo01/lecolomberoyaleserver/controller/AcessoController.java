@@ -12,8 +12,10 @@ import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Funcionario;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Hospede;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Role;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.AuthToken;
+import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Pessoa;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.service.FuncionarioService;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.service.HospedeService;
+import br.unesp.rc.grupo01.lecolomberoyaleserver.service.PessoaService;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.security.TokenProvider;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.service.RoleService;
 import java.util.ArrayList;
@@ -63,6 +65,9 @@ public class AcessoController {
 
     @Autowired
     private HospedeService hospedeService;
+    
+    @Autowired
+    private PessoaService pessoaService;
 
     @PostMapping("login")
     public ResponseEntity<?> generateToken(@RequestBody Acesso acesso) throws AuthenticationException {
@@ -82,12 +87,24 @@ public class AcessoController {
             Hospede hospede = hospedeService.findByUsuario(acesso.getUsuario());
             response.put("idPessoa", String.valueOf(hospede.getIdPessoa()));
             response.put("premium", String.valueOf(hospede.getPremium()));
-        } catch (Exception err) {
-            
+        } catch (Exception errHospede) {
+            try {
+                Funcionario funcionario = funcionarioService.findByUsuario(acesso.getUsuario());
+                response.put("idPessoa", String.valueOf(funcionario.getIdPessoa()));
+                response.put("cargo", String.valueOf(funcionario.getCargo()));
+                response.put("salario", String.valueOf(funcionario.getSalario()));
+            } catch (Exception errFuncionario) {
+                try {
+                    Pessoa admin = pessoaService.findByUsuario(acesso.getUsuario());
+                    response.put("idPessoa", String.valueOf(admin.getIdPessoa()));
+                } catch (Exception errAdmin) {
+
+                }
+            }
         }
 
         response.put("token", token);
-        
+
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
