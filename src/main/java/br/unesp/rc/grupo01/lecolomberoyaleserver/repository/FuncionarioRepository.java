@@ -16,14 +16,16 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
-    
+
     @Override
     Funcionario save(Funcionario entity);
-    
+
     int deleteByCpf(String cpf);
-    
+
     Funcionario findByIdPessoa(int idPessoa);
-    
+
+    Funcionario findByUsuario(String usuario);
+
     Funcionario findByCpf(String cpf);
 
     @Override

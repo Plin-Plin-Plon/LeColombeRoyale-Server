@@ -65,6 +65,16 @@ public class FuncionarioService {
 
         return deleted;
     }
+    
+        public Funcionario findByUsuario(String usuario) {
+        Funcionario insertedEntity = null;
+
+        if (repository != null) {
+            insertedEntity = repository.findByUsuario(usuario);
+        }
+
+        return insertedEntity;
+    }
 
     public Funcionario update(Funcionario entity) {
         Funcionario persistedEntity = null;
