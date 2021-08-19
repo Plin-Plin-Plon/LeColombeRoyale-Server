@@ -13,7 +13,6 @@ import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Pessoa;
 import java.util.HashSet;
 import java.util.Set;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,20 +20,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
 /**
  *
  * @author paulo
  */
 @Service("userService")
 public class PessoaService implements UserDetailsService {
-    
+
     @Autowired
     private PessoaRepository pessoaRepository;
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Pessoa user = pessoaRepository.findByUsuario(username);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("Nome de usuário ou senha inválidos");
         }
         return new org.springframework.security.core.userdetails.User(user.getUsuario(), user.getSenha(), getAuthority(user));
@@ -48,13 +46,14 @@ public class PessoaService implements UserDetailsService {
         return authorities;
     }
 
+    public Pessoa findByUsuario(String username) {
+        return pessoaRepository.findByUsuario(username);
+    }
+    
     /*public List<Pessoa> findAll() {
         List<Pessoa> list = new ArrayList<>();
         pessoaRepository.findAll().iterator().forEachRemaining(list::add);
         return list;
-    }
-
-    public Pessoa findByUsuario(String username) {
-        return pessoaRepository.findByUsuario(username);
     }*/
+
 }
