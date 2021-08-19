@@ -78,12 +78,16 @@ public class AcessoController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final String token = jwtTokenUtil.generateToken(authentication);
 
-        Hospede hospede = hospedeService.findByUsuario(acesso.getUsuario());
-        
-        response.put("idPessoa", String.valueOf(hospede.getIdPessoa()));
-        response.put("premium", String.valueOf(hospede.getPremium()));
-        response.put("token", token);
+        try {
+            Hospede hospede = hospedeService.findByUsuario(acesso.getUsuario());
+            response.put("idPessoa", String.valueOf(hospede.getIdPessoa()));
+            response.put("premium", String.valueOf(hospede.getPremium()));
+        } catch (Exception err) {
+            
+        }
 
+        response.put("token", token);
+        
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
