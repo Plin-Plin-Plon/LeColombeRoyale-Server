@@ -33,10 +33,10 @@ public class HospedagemService {
 
     @Autowired
     private HospedeRepository hospedeRepository;
-    
+
     @Autowired
     private QuartoRepository quartoRepository;
-    
+
     public HospedagemService() {
     }
 
@@ -46,14 +46,14 @@ public class HospedagemService {
         if (repository != null) {
             int hospede = entity.getHospede().getIdPessoa();
             int idQuarto = entity.getQuarto().getNumero();
-            
+
             Quarto quarto = quartoRepository.findByNumero(idQuarto);
-            
+
             entity.setHospede(hospedeRepository.findByIdPessoa(hospede));
             entity.setQuarto(quarto);
             entity.setDiaria(quarto.getValor());
             entity.setValorTotal(quarto.getValor());
-            
+
             persistedEntity = repository.save(entity);
         }
 
@@ -69,7 +69,7 @@ public class HospedagemService {
 
         return insertedEntity;
     }
-    
+
     public Hospedagem findByHospedeIdPessoa(Integer idPessoa) {
         Hospedagem insertedEntity = null;
 
@@ -98,20 +98,10 @@ public class HospedagemService {
             persistedEntity = repository.findByIdHospedagem(idHospedagem);
 
             if (persistedEntity != null) {
-
-                /*
-                if (entity.() != null) {
-                    persistedEntity.setNome(entity.getNome());
+                if (entity.getAtual() != null && persistedEntity.getAtual() == true) {
+                    persistedEntity.setAtual(entity.getAtual());
                 }
 
-                if (entity.getDescricao() != null) {
-                    persistedEntity.setDescricao(entity.getDescricao());
-                }
-                
-                if (entity.getPreco() != null) {
-                    persistedEntity.setPreco(entity.getPreco());
-                }
-                 */
                 persistedEntity = repository.save(persistedEntity);
             }
         }
@@ -131,10 +121,10 @@ public class HospedagemService {
                 if (pedido != null) {
                     double valorTotal = persistedEntity.getValorTotal();
                     double valorPedido = pedido.getServico().getPreco();
-                    
+
                     persistedEntity.setHospedagem(pedido);
                     persistedEntity.setValorTotal(valorTotal + valorPedido);
-                    
+
                     persistedEntity = repository.save(persistedEntity);
                 } else {
                     persistedEntity.setDiaria(-1);
