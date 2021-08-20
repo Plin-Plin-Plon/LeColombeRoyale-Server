@@ -24,8 +24,8 @@ public interface HospedagemRepository extends JpaRepository<Hospedagem, Long> {
     
     Hospedagem findByIdHospedagem(Long idHospedagem);
     
-    Hospedagem findByHospedeIdPessoa(Integer idPessoa);
-
+    Hospedagem findByHospedeIdPessoaAndAtual(Integer idPessoa, Boolean atual);
+    
     @Override
     List<Hospedagem> findAll();
 }

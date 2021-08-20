@@ -61,7 +61,7 @@ public class HospedagemController {
     @GetMapping(value = "index", params = {"idHospede"})
     public ResponseEntity index(@RequestParam("idHospede") Integer idHospede) {
         Hospedagem hospedagem = new Hospedagem();
-        hospedagem = service.findByHospedeIdPessoa(idHospede);
+        hospedagem = service.findByHospedeIdPessoaAndAtual(idHospede, true);
 
         if (hospedagem != null) {
             return ResponseEntity.status(HttpStatus.OK).body(hospedagem);
@@ -71,7 +71,7 @@ public class HospedagemController {
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
     }
-
+    
     @PostMapping("create")
     public ResponseEntity create(@RequestBody Hospedagem data) {
         Hospedagem hospedagem = new Hospedagem();
@@ -79,8 +79,8 @@ public class HospedagemController {
         return ResponseEntity.status(HttpStatus.OK).body(hospedagem);
     }
 
-    @PatchMapping("update")
-    public ResponseEntity patch(@RequestParam("id") Long idHospedagem, @RequestParam("idPedido") Long idPedido) {
+    @PatchMapping(value = "update", params = {"idHospedagem"})
+    public ResponseEntity patch(@RequestParam("idHospedagem") Long idHospedagem, @RequestParam("idPedido") Long idPedido) {
         Hospedagem hospedagem = new Hospedagem();
         hospedagem = service.update(idHospedagem, idPedido);
 
@@ -97,10 +97,24 @@ public class HospedagemController {
         }
     }
 
-    /*  TODO 
-            Arrumar as rotas para que o usuário possa fazer update em serviços
-            E o MOD possa atualizar os dados da hospedagem. Ex: data,preço,etc.
-     */
+    @PatchMapping(value = "update", params = {"idHospedagem", "atual"})
+    public ResponseEntity patch(@RequestParam("idHospedagem") Long idHospedagem, Boolean atual) {
+        Hospedagem hospedagem = new Hospedagem();
+        hospedagem = service.update(idHospedagem, atual);
+
+        if (hospedagem != null && hospedagem.getDiaria() != -1) {
+            return ResponseEntity.status(HttpStatus.OK).body(hospedagem);
+        } else if (hospedagem == null) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Hospedagem não encontrada");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } else {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Hospedagem já finalizada!");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
+    }
+    
     @PreAuthorize("hasRole('MOD')")
     @DeleteMapping("delete")
     @Transactional

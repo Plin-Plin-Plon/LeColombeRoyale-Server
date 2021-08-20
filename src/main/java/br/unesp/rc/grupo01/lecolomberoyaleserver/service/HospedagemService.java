@@ -70,11 +70,11 @@ public class HospedagemService {
         return insertedEntity;
     }
 
-    public Hospedagem findByHospedeIdPessoa(Integer idPessoa) {
+    public Hospedagem findByHospedeIdPessoaAndAtual(Integer idPessoa, Boolean atual) {
         Hospedagem insertedEntity = null;
 
         if (repository != null) {
-            insertedEntity = repository.findByHospedeIdPessoa(idPessoa);
+            insertedEntity = repository.findByHospedeIdPessoaAndAtual(idPessoa, atual);
         }
 
         return insertedEntity;
@@ -135,6 +135,25 @@ public class HospedagemService {
         return persistedEntity;
     }
 
+    public Hospedagem update(Long idHospedagem, Boolean atual) {
+        Hospedagem persistedEntity = null;
+
+        if (repository != null) {
+            persistedEntity = repository.findByIdHospedagem(idHospedagem);
+
+            if (persistedEntity != null) {
+                if (atual != null && persistedEntity.getAtual() == true) {
+                    persistedEntity.setAtual(atual);
+                    persistedEntity = repository.save(persistedEntity);
+                } else {
+                    persistedEntity.setDiaria(-1);
+                }
+            }
+        }
+
+        return persistedEntity;
+    }
+    
     public List<Hospedagem> findAll() {
         List<Hospedagem> list = null;
 
