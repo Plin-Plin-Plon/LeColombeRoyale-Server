@@ -87,6 +87,8 @@ public class ServicoService {
             } catch (IOException ex) {
                 System.err.println("Erro no arquivo CSV");
                 ex.printStackTrace();
+            } catch (IllegalArgumentException ex) {
+                System.err.println("Arquivo de recomendações está vazio!");
             }
         }
 
