@@ -43,6 +43,13 @@ public class ServicoController {
         return ResponseEntity.status(HttpStatus.OK).body(servicos);
     }
 
+    @GetMapping(value = "recommend", params = {"idPessoa"})
+    public ResponseEntity recommend(@RequestParam("idPessoa") Integer idPessoa) {
+        List<Servico> servicos = new ArrayList<>();
+        servicos = service.recommendByIdPessoa(idPessoa);
+        return ResponseEntity.status(HttpStatus.OK).body(servicos);
+    }
+    
     @GetMapping(value = "index", params = {"id"})
     public ResponseEntity index(@RequestParam("id") Integer idServico) {
         Servico servico = new Servico();

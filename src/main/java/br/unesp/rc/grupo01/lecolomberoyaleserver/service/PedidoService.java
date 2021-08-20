@@ -7,6 +7,7 @@ package br.unesp.rc.grupo01.lecolomberoyaleserver.service;
 
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Hospedagem;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Pedido;
+import br.unesp.rc.grupo01.lecolomberoyaleserver.recommender.Recomendador;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.HospedeRepository;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.PedidoRepository;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.QuartoRepository;
@@ -140,6 +141,7 @@ public class PedidoService {
             if (persistedEntity != null) {
                 if (entity.getAvaliacaoServico() != null) {
                     persistedEntity.setAvaliacaoServico(entity.getAvaliacaoServico());
+                    Recomendador.writeFormattedCsv(persistedEntity, "data.csv");
                 }
 
                 if (entity.getConcluido() != false) {
