@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Christian
  */
 @RestController
-@PreAuthorize("hasRole('MOD')")
 @RequestMapping("quarto")
 public class QuartoController {
 
@@ -58,6 +57,7 @@ public class QuartoController {
         }
     }
 
+    @PreAuthorize("hasRole('MOD')")
     @PostMapping("create")
     public ResponseEntity create(@RequestBody Quarto data) {
         Quarto quarto = new Quarto();
@@ -72,6 +72,7 @@ public class QuartoController {
         }
     }
 
+    @PreAuthorize("hasRole('MOD')")
     @PatchMapping("update")
     public ResponseEntity patch(@RequestBody Quarto data) {
         Quarto quarto = new Quarto();
@@ -86,6 +87,7 @@ public class QuartoController {
         }
     }
 
+    @PreAuthorize("hasRole('MOD')")
     @DeleteMapping("delete")
     @Transactional
     public ResponseEntity delete(@RequestParam("numero") Integer numero) {
