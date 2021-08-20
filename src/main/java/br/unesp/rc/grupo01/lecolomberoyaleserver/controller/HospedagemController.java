@@ -72,7 +72,6 @@ public class HospedagemController {
         }
     }
 
-    @PreAuthorize("hasRole('MOD')")
     @PostMapping("create")
     public ResponseEntity create(@RequestBody Hospedagem data) {
         Hospedagem hospedagem = new Hospedagem();
@@ -110,9 +109,9 @@ public class HospedagemController {
         Map<String, String> response = new HashMap<>();
 
         if (deleted >= 1) {
-            response.put("message", "Hospedagem de id " + idHospedagem + "deletada com sucesso");
+            response.put("message", "Hospedagem de id " + idHospedagem + " deletada com sucesso");
         } else {
-            response.put("message", "Hospedagem de id " + idHospedagem + "não encontrada");
+            response.put("message", "Hospedagem de id " + idHospedagem + " não encontrada");
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(response);

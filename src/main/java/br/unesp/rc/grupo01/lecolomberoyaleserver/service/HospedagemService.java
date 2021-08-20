@@ -7,6 +7,7 @@ package br.unesp.rc.grupo01.lecolomberoyaleserver.service;
 
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Hospedagem;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Pedido;
+import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Quarto;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.HospedagemRepository;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.HospedeRepository;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.repository.PedidoRepository;
@@ -44,10 +45,14 @@ public class HospedagemService {
 
         if (repository != null) {
             int hospede = entity.getHospede().getIdPessoa();
-            int quarto = entity.getQuarto().getNumero();
+            int idQuarto = entity.getQuarto().getNumero();
+            
+            Quarto quarto = quartoRepository.findByNumero(idQuarto);
             
             entity.setHospede(hospedeRepository.findByIdPessoa(hospede));
-            entity.setQuarto(quartoRepository.findByNumero(quarto));
+            entity.setQuarto(quarto);
+            entity.setDiaria(quarto.getValor());
+            entity.setValorTotal(quarto.getValor());
             
             persistedEntity = repository.save(entity);
         }
@@ -124,12 +129,16 @@ public class HospedagemService {
                 Pedido pedido = pedidoRepository.findByIdPedido(idPedido);
 
                 if (pedido != null) {
+                    double valorTotal = persistedEntity.getValorTotal();
+                    double valorPedido = pedido.getServico().getPreco();
+                    
                     persistedEntity.setHospedagem(pedido);
+                    persistedEntity.setValorTotal(valorTotal + valorPedido);
+                    
                     persistedEntity = repository.save(persistedEntity);
                 } else {
                     persistedEntity.setDiaria(-1);
                 }
-
             }
         }
 
