@@ -11,7 +11,6 @@ import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Endereco;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Funcionario;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Hospede;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Role;
-import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.AuthToken;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.entity.Pessoa;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.service.FuncionarioService;
 import br.unesp.rc.grupo01.lecolomberoyaleserver.service.HospedeService;
