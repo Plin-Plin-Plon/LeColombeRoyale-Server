@@ -70,23 +70,23 @@ INSERT INTO user_roles (user_id, role_id) VALUES (3, 3) ON DUPLICATE KEY UPDATE 
 INSERT INTO user_roles (user_id, role_id) VALUES (4, 3) ON DUPLICATE KEY UPDATE user_id = 4;
 INSERT INTO user_roles (user_id, role_id) VALUES (5, 3) ON DUPLICATE KEY UPDATE user_id = 5;
 
-INSERT INTO Servico (id_servico, descricao, nome, preco) VALUES
+INSERT INTO Servico (id_servico, nome, descricao, preco) VALUES
 (1, "Bife à parmegiana", "Parmegiana de carne com molho pomodoro", 120.00) ON DUPLICATE KEY UPDATE id_servico = 1;
-INSERT INTO Servico (id_servico, descricao, nome, preco) VALUES
+INSERT INTO Servico (id_servico, nome, descricao, preco) VALUES
 (2, "Pizza de calabresa", "Pizza com calabresa, molho de tomate, cebola, e cheiro verde", 80.00) ON DUPLICATE KEY UPDATE id_servico = 2;
-INSERT INTO Servico (id_servico, descricao, nome, preco) VALUES
+INSERT INTO Servico (id_servico, nome, descricao, preco) VALUES
 (3, "Lasanha à bolonhesa", "Lasanha de 750g com molho pomodoro e carne moída", 70.00) ON DUPLICATE KEY UPDATE id_servico = 3;
-INSERT INTO Servico (id_servico, descricao, nome, preco) VALUES
+INSERT INTO Servico (id_servico, nome, descricao, preco) VALUES
 (4, "X-Bacon", "Lanche com carne de 110g, bacon, queijo mussarela, ketchup, alface e tomate", 45.00) ON DUPLICATE KEY UPDATE id_servico = 4;
-INSERT INTO Servico (id_servico, descricao, nome, preco) VALUES
+INSERT INTO Servico (id_servico, nome, descricao, preco) VALUES
 (5, "Salada Caesar", "Salada preparada com alface romana e molho Caesar", 38.00) ON DUPLICATE KEY UPDATE id_servico = 5;
-INSERT INTO Servico (id_servico, descricao, nome, preco) VALUES
+INSERT INTO Servico (id_servico, nome, descricao, preco) VALUES
 (6, "Strogonoff de frango", "Strogonoff de frango com batata palha e arroz branco", 65.00) ON DUPLICATE KEY UPDATE id_servico = 6;
-INSERT INTO Servico (id_servico, descricao, nome, preco) VALUES
+INSERT INTO Servico (id_servico, nome, descricao, preco) VALUES
 (7, "Nhoque", "Nhoque de 500g com molho ao sugo e queijo ralado", 60.00) ON DUPLICATE KEY UPDATE id_servico = 7;
-INSERT INTO Servico (id_servico, descricao, nome, preco) VALUES
+INSERT INTO Servico (id_servico, nome, descricao, preco) VALUES
 (8, "Salmão grelhado", "Salmão grelhado com molho shoyo", 150.00) ON DUPLICATE KEY UPDATE id_servico = 8;
-INSERT INTO Servico (id_servico, descricao, nome, preco) VALUES
+INSERT INTO Servico (id_servico, nome, descricao, preco) VALUES
 (9, "Bolo de chocolate", "Bolo de chocolate feito com a receita exatamente igual a do livro", 42.00) ON DUPLICATE KEY UPDATE id_servico = 9;
 
 INSERT INTO Quarto (numero, tipo, vago, valor) VALUES
