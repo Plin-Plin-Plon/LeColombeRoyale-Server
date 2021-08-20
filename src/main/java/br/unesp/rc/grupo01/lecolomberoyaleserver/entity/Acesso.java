@@ -6,6 +6,7 @@
 package br.unesp.rc.grupo01.lecolomberoyaleserver.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,6 +24,7 @@ import lombok.ToString;
 @ToString
 public class Acesso implements Serializable {
 
+    @Column(unique = true)
     private String usuario;
 
     private String senha;

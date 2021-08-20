@@ -35,6 +35,8 @@ public class Contato implements Serializable {
     private String telResidencial;
     
     private String telCelular;
+    
+    @Column(unique = true)
     private String email;
 
     public Contato() {

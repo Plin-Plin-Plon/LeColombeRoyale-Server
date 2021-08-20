@@ -57,7 +57,7 @@ public class Hospedagem implements Serializable {
     private Hospede hospede;
 
     @OneToOne
-    @JoinColumn(name = "quarto_numero")
+    @JoinColumn(name = "quarto_numero", unique = true)
     private Quarto quarto;
 
     @Column(nullable = false)
